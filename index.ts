@@ -3,7 +3,7 @@ var nodemailer = require("nodemailer");
 
 var FROM_ADDRESS = 'dandanbachar@gmail.com';
 // var TO_ADDRESS = 'natalie.judkowsky@liwela.com';
-var TO_ADDRESS = 'elad.gargi@liwela.com';
+var TO_ADDRESSES = ['elad.gargi@liwela.com']; // TODO: add more email addresses here, email will be sent individually to each address
 
 const transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -43,13 +43,14 @@ fs.readFile(template, 'utf8', function(err, file){
         console.log(err);
     }
     else {
-        sendMail(TO_ADDRESS, 'test', file, function(err, response){
-            if(err){
-                console.log('ERROR!');
-                console.log(err);
-                console.log(response);
-            }
-            console.log("Email sent!");
-        });
+      TO_ADDRESSES.forEach(address => {
+        sendMail(address, 'test', file, function(err, response){
+          if(err){
+              console.log('ERROR!');
+              console.log(err);
+          }
+          console.log("Email sent!");
+      });
+      });
     }
 });
